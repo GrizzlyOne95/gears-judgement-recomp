@@ -1,0 +1,15 @@
+# Your own game files and everything derived from them
+game/
+generated/
+*.xex
+
+# Build output
+out/
+build/
+
+# Run-time files
+logs/
+saves/
+config/gowj.toml
+gowj_crash.log
+*.log

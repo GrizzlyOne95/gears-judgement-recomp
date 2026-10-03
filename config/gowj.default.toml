@@ -1,0 +1,105 @@
+# Gears of War: Judgment (PC) settings.
+#
+# On first launch this file is copied to config/gowj.toml, and that copy is what the game
+# loads. Edit config/gowj.toml (or press F4 in game); delete it to go back to these defaults.
+# This default file is refreshed on every build, your copy never is.
+#
+# Every key is a real setting name. A name the game does not know is reported in the log as
+# "Config: unknown cvar". Command-line flags (--name=value) and REX_* environment variables
+# override this file.
+
+# ---------- Display ----------
+fullscreen = true
+
+# What the game believes the display mode is. It only feeds the aspect ratio; the render size
+# is chosen by the quality tier below (or draw_resolution_scale_x / _y).
+video_mode_width = 1280
+video_mode_height = 720
+
+# The game's own render target size. 0 keeps the original 1280x720, which the console GPU
+# emulation bands correctly. Values above 1920x1080 break the frame (the 10 MB console
+# framebuffer cannot hold them), so leave this at 0 unless you know why you are changing it.
+gowj_render_width = 0
+gowj_render_height = 0
+
+# Resolution-scaling resolve fixes. These are start-up only settings.
+direct_host_resolve = true
+resolve_resolution_scale_fill_half_pixel_offset = true
+mrt_edram_used_range_clamp_to_min = true
+present_effect = "bilinear"
+present_letterbox = false
+
+# ---------- Quality ----------
+# auto = pick low / medium / high from your GPU on every launch, and lower it for the next
+#        launch if 60 fps is not held (it never raises it by itself).
+# low    1280x720 internal, no SMAA, 4x anisotropic filtering   (handhelds, integrated GPUs)
+# medium 1280x720 internal + SMAA, 8x anisotropic filtering
+# high   2560x1440 internal + SMAA, 16x anisotropic filtering   (12 GB+ NVIDIA cards)
+# Adding any of these to your config overrides the tier for that one setting:
+#   draw_resolution_scale_x / draw_resolution_scale_y (1 or 2), anisotropic_override (0-5),
+#   native_2x_msaa, texture_cache_memory_limit_soft / _hard / _render_to_texture,
+#   d3d12_pipeline_creation_threads, render_target_path_d3d12 ("rov"), gowj_smaa, gowj_fsr.
+gowj_quality = "auto"
+
+# Anti-aliasing is done by SMAA in the final-image pass (gowj_smaa), so the runtime's own
+# FXAA stays off.
+swap_post_effect = "none"
+
+# Dither the final 8-bit output to hide banding in smoke, sky and dark walls.
+present_dither = true
+
+# Approximate alpha-test compare; stops alpha-tested edges flickering on NVIDIA GPUs.
+use_fuzzy_alpha_epsilon = true
+
+# ---------- Final image (SMAA + FSR) ----------
+# These are defaults; uncomment a line to change it.
+# gowj_fsr = true             FSR 1.0 upscaling + sharpening of the final image
+# gowj_smaa = true            SMAA 1x anti-aliasing before upscaling
+# gowj_fsr_easu = true        edge-adaptive upscaling (false = plain bilinear stretch)
+# gowj_fsr_sharpness = 0.5    sharpening strength in stops: 0 = sharpest, 2 = softest
+# gowj_film_grain = false     the game's animated film grain (off removes shimmer)
+# gowj_motion_blur = false    the game's motion blur (off by default)
+# gowj_game_fxaa = false      the game's own FXAA pass
+# gowj_scaling_fix = true     community fix that makes the post-process chain resolution-friendly
+
+# ---------- Frame rate ----------
+vsync = true
+
+# Frame-rate limit in frames per second. The limiter holds an even frame spacing, which
+# looks smoother than an unlimited game on a high-refresh display. 0 = unlocked. Any number
+# is a cap (30, 90, 120...). Press F8 in game to switch between unlocked and this value.
+gowj_pace_hz = 60
+
+# Variable refresh rate (G-Sync / FreeSync). Turn this on together with gowj_pace_hz = 0 if
+# your monitor supports it; without it, an unlocked frame rate has uneven frame spacing.
+d3d12_allow_variable_refresh_rate_and_tearing = false
+
+# ---------- Keyboard and mouse ----------
+mnk_mode = true
+mnk_mouse = true
+
+# Mouse look is a direct angle, not an emulated thumbstick: the camera turns by exactly the
+# distance the mouse moved, independent of frame rate, with the game's stick smoothing and
+# turn acceleration removed.
+mnk_look_model = 0
+mnk_full_deflect_pixels = 5.0
+mnk_sensitivity = 1.5
+mnk_yaw_scale = 1.0
+mnk_pitch_scale = 1.5
+mnk_invert_y = false
+
+# true brings back the game's thumbstick low-pass filter (the console feel).
+mnk_guest_smoothing = false
+
+# true = the mouse angle goes straight into the game's look input, past the limit that caps
+# how fast a stick can turn the camera. false = the old rate-limited stick emulation.
+mnk_raw_look = true
+mnk_raw_look_mode = 2
+
+# Mouse sensitivity: engine turn units per mouse pixel. Higher turns farther per pixel.
+# F11 lowers it by 20% and F12 raises it by 20% while playing (the new value is logged);
+# copy it here to keep it.
+mnk_raw_look_scale = 0.003
+
+# Print the game's input poll rate to the log once per second.
+mnk_fps_meter = true
